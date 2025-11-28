@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Booking Dashboard</title>
+    <!-- css link  -->
+     <link rel="stylesheet" href="./css/book.css">
+    <style>
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Travel Booking Dashboard</h1>
+    </div>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h2>Book Your Destination</h2>
+
+            <div class="input-group">
+                <form action="">
+                    <label>Select Country</label>
+                    <select id="country" onchange="loadDestinations()">
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="UAE">UAE</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="input-group">
+                <form action="">
+                    <label>Choose Destination</label>
+                    <select id="destination"></select>
+                </form>
+            </div>
+
+            <div class="input-group">
+                <form action="">
+                    <label>Number of People</label>
+                    <input type="number" id="people" min="1" value="1" />
+                </form>
+            </div>
+            <div class="input-group">
+                <form action="">
+                    <label>Choose Date</label>
+                    <input type="date" id="travelDate">
+                </form>
+            </div>
+
+            <input type="submit" onclick="bookNow()" class="btn">
+        </div>
+
+        <div class="card">
+            <h2>Your Bookings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>People</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingList"></tbody>
+            </table>
+        </div>
+
+        <input type="submit" onclick="confirmBooking()" class="btn">
+    </div>
+
+    <script>
+        const destinationsByCountry = {
+            India: ["Kashmir", "Goa", "Manali", "Rajasthan", "Darjeeling", "Manali"],
+            Indonesia: ["Bali", "Jakarta"],
+            UAE: ["Dubai", "Abu Dhabi"]
+        };
+
+        function loadDestinations() {
+            const country = document.getElementById("country").value;
+            const destSelect = document.getElementById("destination");
+            destSelect.innerHTML = "";
+
+            destinationsByCountry[country].forEach(dest => {
+                destSelect.innerHTML += `<option value="${dest}">${dest}</option>`;
+            });
+        }
+
+        loadDestinations();
+
+        function bookNow() {
+            const dest = document.getElementById("destination").value;
+            const people = document.getElementById("people").value;
+            const date = document.getElementById("travelDate").value;
+
+            // Date validation
+            const today = new Date().toISOString().split("T")[0]; // Current date in yyyy-mm-dd
+
+            if (!date) {
+                alert("Please select a travel date!");
+                return;
+            }
+
+            if (date < today) {
+                alert("You cannot select a past date!");
+                return;
+            }
+
+            const pricePerPerson = 1999;
+            const total = people * pricePerPerson;
+
+            const row = `
+        <tr>
+            <td>${dest}</td>
+            <td>${people}</td>
+            <td>₹${total}</td>
+        </tr>
+    `;
+
+            document.getElementById("bookingList").innerHTML += row;
+        }
+
+        function confirmBooking() {
+            alert('Booking Confirmed Successfully!');
+        }
+        function confirmBooking() {
+            alert('Booking Confirmed Successfully!');
+            window.location.href = "index.html"; // redirect to home page
+        }
+
+    </script>
+
+
+</body>
+
+</html>
